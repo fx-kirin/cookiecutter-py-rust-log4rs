@@ -1,13 +1,14 @@
+use log::{debug, error, info, trace, warn};
 use log4rs::file::Deserializers;
 use pyo3::prelude::*;
 use pyo3::wrap_pyfunction;
 use pyo3::{exceptions, PyResult};
 use std::fs::File;
+use std::io::prelude::*;
+use std::path::Path;
 use std::sync::Once;
 use tera::Context;
 use tera::Tera;
-use std::io::prelude::*;
-use std::path::Path;
 
 #[macro_use]
 extern crate serde_derive;
