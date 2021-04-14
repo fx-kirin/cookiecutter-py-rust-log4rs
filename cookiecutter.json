@@ -1,0 +1,14 @@
+{
+  "full_name": "fx kirin",
+  "email": "fx.kirin@gmail.com",
+  "github_username": "fx-kirin",
+  "project_name": "Python Rust Boilerplate",
+  "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
+  "package_name": "{{ cookiecutter.project_slug.replace('_', '-') }}",
+  "project_short_description": "Sweet Python Rust Package",
+  "project_keywords": "",
+  "pypi_username": "{{ cookiecutter.github_username }}",
+  "version": "0.1.0",
+  "create_author_file": "y",
+  "open_source_license": ["MIT license", "BSD license", "ISC license", "Apache Software License 2.0", "GNU General Public License v3", "Not open source"]
+}
