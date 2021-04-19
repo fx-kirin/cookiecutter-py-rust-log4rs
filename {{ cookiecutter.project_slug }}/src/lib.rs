@@ -1,8 +1,5 @@
 use log::{debug, error, info, trace, warn};
 use log4rs::file::Deserializers;
-use pyo3::prelude::*;
-use pyo3::wrap_pyfunction;
-use pyo3::{exceptions, PyResult};
 use std::fs::File;
 use std::io::prelude::*;
 use std::path::Path;
@@ -31,7 +28,6 @@ fn init_log(log4rs_config: log4rs::file::RawConfig) -> Result<(), anyhow::Error>
     Ok(())
 }
 
-#[pyfunction]
 pub fn log_config_from_project_root(config_file_path: String) {
     INIT.call_once(|| {
         let file_path = Path::new(&config_file_path);
@@ -101,16 +97,10 @@ pub fn log_config_file(config_file_path: String, log_file_name: Option<String>) 
     Ok(())
 }
 
-#[pyfunction]
-/// Formats the sum of two numbers as string
-fn sum_as_string(a: usize, b: usize) -> PyResult<String> {
-    Ok((a + b).to_string())
-}
 
 #[pymodule]
 fn rust_binding(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_wrapped(wrap_pyfunction!(log_config_file))?;
     m.add_wrapped(wrap_pyfunction!(log_config_from_project_root))?;
-    m.add_wrapped(wrap_pyfunction!(sum_as_string))?;
     Ok(())
 }

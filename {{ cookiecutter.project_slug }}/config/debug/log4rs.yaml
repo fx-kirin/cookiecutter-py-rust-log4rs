@@ -3,12 +3,12 @@ appenders:
   stdout:
     kind: console
     encoder:
-      pattern: "{h([{l:0.1}|{d(%y%m%d %H:%M:%S)}|{P}|{t}|{T}:{M}:{f}:{L}] {m}{n})}"
+      pattern: "{h([{l:0.1}|{d(%y%m%d %H:%M:%S.%f)}|{P}|{t}|{T}:{M}:{f}:{L}] {m}{n})}"
   {{cookiecutter.package_name}}:
     kind: rolling_file
     path: "log/{{cookiecutter.package_name}}.log"
     encoder:
-      pattern: "[{l:0.1}|{d(%y%m%d %H:%M:%S)}|{P}|{t}|{T}:{M}:{f}:{L}] {m}{n}"
+      pattern: "[{l:0.1}|{d(%y%m%d %H:%M:%S.%f)}|{P}|{t}|{T}:{M}:{f}:{L}] {m}{n}"
     policy:
       kind: compound
       trigger:
