@@ -12,6 +12,7 @@ extern crate serde_derive;
 
 static INIT: Once = Once::new();
 
+#[pyfunction]
 fn init_log(log4rs_config: log4rs::file::RawConfig) -> Result<(), anyhow::Error> {
     let (appenders, _) = log4rs_config.appenders_lossy(&Deserializers::default());
 
@@ -28,6 +29,7 @@ fn init_log(log4rs_config: log4rs::file::RawConfig) -> Result<(), anyhow::Error>
     Ok(())
 }
 
+#[pyfunction]
 pub fn log_config_from_project_root(config_file_path: String) {
     INIT.call_once(|| {
         let file_path = Path::new(&config_file_path);
@@ -72,7 +74,7 @@ pub fn log_config_file(config_file_path: String, log_file_name: Option<String>) 
     let log4rs_config = match result {
         Ok(r) => r.to_string(),
         Err(e) => {
-            return Err(exceptions::RuntimeError::py_err(format!(
+            return Err(exceptions::PyRuntimeError::new_err(format!(
                 "Parse template failed {:?}",
                 e
             )));
@@ -84,7 +86,7 @@ pub fn log_config_file(config_file_path: String, log_file_name: Option<String>) 
     let log4rs_config = match log4rs_config {
         Ok(r) => r,
         Err(e) => {
-            return Err(exceptions::RuntimeError::py_err(format!(
+            return Err(exceptions::PyRuntimeError::new_err(format!(
                 "Log4rs setting is wrong {:?}",
                 e
             )));
