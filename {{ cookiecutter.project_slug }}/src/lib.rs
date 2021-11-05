@@ -12,7 +12,6 @@ extern crate serde_derive;
 
 static INIT: Once = Once::new();
 
-#[pyfunction]
 fn init_log(log4rs_config: log4rs::file::RawConfig) -> Result<(), anyhow::Error> {
     let (appenders, _) = log4rs_config.appenders_lossy(&Deserializers::default());
 
