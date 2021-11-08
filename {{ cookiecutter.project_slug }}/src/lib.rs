@@ -1,5 +1,5 @@
 use log::{debug, error, info, trace, warn};
-use log4rs::file::Deserializers;
+use log4rs::config::Deserializers;
 use std::fs::File;
 use std::io::prelude::*;
 use std::path::Path;
@@ -12,7 +12,7 @@ extern crate serde_derive;
 
 static INIT: Once = Once::new();
 
-fn init_log(log4rs_config: log4rs::file::RawConfig) -> Result<(), anyhow::Error> {
+fn init_log(log4rs_config: log4rs::config::RawConfig) -> Result<(), anyhow::Error> {
     let (appenders, _) = log4rs_config.appenders_lossy(&Deserializers::default());
 
     let (config, _) = log4rs::config::Config::builder()
@@ -73,19 +73,19 @@ pub fn log_config_file(config_file_path: String, log_file_name: Option<String>) 
     let log4rs_config = match result {
         Ok(r) => r.to_string(),
         Err(e) => {
-            return Err(exceptions::PyRuntimeError::new_err(format!(
+            return Err(pyo3::exceptions::PyRuntimeError::new_err(format!(
                 "Parse template failed {:?}",
                 e
             )));
         }
     };
 
-    let log4rs_config: Result<log4rs::file::RawConfig, serde_yaml::Error> =
+    let log4rs_config: Result<log4rs::config::RawConfig, serde_yaml::Error> =
         serde_yaml::from_str(&log4rs_config);
     let log4rs_config = match log4rs_config {
         Ok(r) => r,
         Err(e) => {
-            return Err(exceptions::PyRuntimeError::new_err(format!(
+            return Err(pyo3::exceptions::PyRuntimeError::new_err(format!(
                 "Log4rs setting is wrong {:?}",
                 e
             )));
